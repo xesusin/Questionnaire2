@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f4f7f8;
+      color: #333;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #007bff;
+    }
+
+    form {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    input[type="text"],
+    input[type="file"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .add-btn {
+      margin-top: 10px;
+      padding: 8px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: background-color 0.3s ease;
+      font-size: 14px;
+    }
+
+    .add-btn:hover {
+      background-color: #0056b3;
+    }
+
+    .remove-btn {
+      background-color: red;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+
+    button[type="submit"] {
+      width: 100%;
+      padding: 10px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    button[type="submit"]:hover {
+      background-color: #005f00;
+    }
+
+    .file-input-wrapper {
+      margin-top: 15px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: 700;
+      margin-top: 20px;
+      margin-bottom: 10px;
+    }
+
+    .service-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .service-row input {
+      flex: 1;
+    }
+
+    .remove-service-btn {
+      background-color: red;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    .remove-service-btn:hover {
+      background-color: darkred;
+    }
+
+    .file-list {
+      margin-top: 10px;
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .file-list li {
+      margin: 5px 0;
+      background: #f9f9f9;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+  </style>
+  </head>
+
+  <body>
+
+    <h1>Анкета</h1>
+
+    <form id="business-form">
+      <!-- О себе -->
+      <label for="about">Расскажите о себе</label>
+      <textarea id="about" name="about"
+        placeholder="Как давно работаете, что отличает вас от конкурентов, есть ли доставка и выезд"></textarea>
+
+      <!-- Прикрепление фотографий -->
+      <label>Пожалуйста, прикрепите фотографии вашего бизнеса</label>
+      <div class="file-input-wrapper" id="photo-section">
+        <input type="file" name="businessPhotos[]" accept="image/*" multiple>
+        <ul class="file-list" id="photo-list"></ul>
+      </div>
+
+      <!-- Прикрепление видео -->
+      <label>Прикрепите видео про ваш бизнес</label>
+      <div class="file-input-wrapper" id="video-section">
+        <input type="file" name="businessVideos[]" accept="video/*" multiple>
+        <ul class="file-list" id="video-list"></ul>
+      </div>
+
+      <!-- Услуги/Товары и Стоимость -->
+      <div id="service-section">
+        <div class="section-title">Теперь подробнее о каждой услуге/товаре и его стоимости</div>
+        <div id="service-container">
+          <div class="service-row">
+            <input type="text" name="service[]" placeholder="Услуга/Товар">
+            <input type="text" name="price[]" placeholder="Стоимость">
+            <button type="button" class="remove-btn">Удалить</button>
+          </div>
+        </div>
+        <button type="button" class="add-btn" id="add-service-btn">+ Добавить Услугу/Товар</button>
+      </div>
+
+      <!-- Прикрепление фотографий для услуги -->
+      <label>Прикрепите фотографии для услуги/товара</label>
+      <div class="file-input-wrapper" id="service-photo-section">
+        <input type="file" name="servicePhotos[]" accept="image/*" multiple>
+        <ul class="file-list" id="service-photo-list"></ul>
+      </div>
+
+      <!-- Сотрудники -->
+      <div id="employee-section">
+        <div class="section-title">Познакомьте своих клиентов с вашими сотрудниками</div>
+        <button type="button" class="add-btn" id="add-employee-btn">+ Добавить сотрудника</button>
+      </div>
+
+      <button type="submit" class="add-btn" style="background-color: green;">Отправить</button>
+    </form>
+
+    <script>
+      // Функция для экранирования Markdown
+      function escapeMarkdown(text) {
+        return text
+          .replace(/_/g, '\\_')
+          .replace(/\*/g, '\\*')
+          .replace(/\[/g, '\\[')
+          .replace(/\]/g, '\\]')
+          .replace(/\(/g, '\\(')
+          .replace(/\)/g, '\\)')
+          .replace(/~/g, '\\~')
+          .replace(/>/g, '\\>')
+          .replace(/#/g, '\\#')
+          .replace(/\+/g, '\\+')
+          .replace(/-/g, '\\-')
+          .replace(/=/g, '\\=')
+          .replace(/\|/g, '\\|')
+          .replace(/{/g, '\\{')
+          .replace(/}/g, '\\}')
+          .replace(/\./g, '\\.');
+      }
+
+      // Обновляем список выбранных файлов
+      function updateFileList(input, listId) {
+        const list = document.getElementById(listId);
+        list.innerHTML = ''; // Очищаем список перед обновлением
+        Array.from(input.files).forEach(file => {
+          const listItem = document.createElement('li');
+          listItem.textContent = file.name;
+          list.appendChild(listItem);
+        });
+      }
+
+      // Отображаем список файлов для фото и видео
+      document.querySelector('input[name="businessPhotos[]"]').addEventListener('change', function () {
+        updateFileList(this, 'photo-list');
+      });
+
+      document.querySelector('input[name="businessVideos[]"]').addEventListener('change', function () {
+        updateFileList(this, 'video-list');
+      });
+
+      document.querySelector('input[name="servicePhotos[]"]').addEventListener('change', function () {
+        updateFileList(this, 'service-photo-list');
+      });
+
+      // Добавляем новую строку услуги
+      function addServiceRow() {
+        const serviceContainer = document.getElementById('service-container');
+        const newServiceRow = document.createElement('div');
+        newServiceRow.className = 'service-row';
+        newServiceRow.innerHTML = `
+          <input type="text" name="service[]" placeholder="Услуга/Товар">
+          <input type="text" name="price[]" placeholder="Стоимость">
+          <button type="button" class="remove-btn">Удалить</button>
+      `;
+        serviceContainer.insertBefore(newServiceRow, serviceContainer.querySelector('.add-btn'));
+
+        // Удаление строки услуги
+        newServiceRow.querySelector('.remove-btn').addEventListener('click', function () {
+          newServiceRow.remove();
+        });
+      }
+
+      // Добавляем сотрудника
+      function addEmployeeField() {
+        const employeeSection = document.getElementById('employee-section');
+        const newEmployee = document.createElement('div');
+        newEmployee.className = 'employee-wrapper';
+        newEmployee.innerHTML = `
+          <input type="text" name="employeeName" placeholder="Имя">
+          <textarea name="employeeDesc" placeholder="Описание"></textarea>
+          <input type="file" name="employeePhoto" accept="image/*">
+          <button type="button" class="remove-btn">Удалить</button>
+      `;
+        employeeSection.appendChild(newEmployee);
+
+        // Удаление сотрудника
+        newEmployee.querySelector('.remove-btn').addEventListener('click', function () {
+          newEmployee.remove();
+        });
+      }
+
+      // Добавляем строки для услуг и сотрудников
+      document.getElementById('add-service-btn').addEventListener('click', addServiceRow);
+      document.getElementById('add-employee-btn').addEventListener('click', addEmployeeField);
+
+      // Telegram bot integration
+      document.getElementById('business-form').addEventListener('submit', function (event) {
+        event.preventDefault(); // Предотвращаем стандартную отправку формы
+
+        const formData = new FormData(this);
+
+        const message = `
+1. **[О себе] - Как давно работаете, что отличает вас от конкурентов, есть ли доставка и выезд?**:
+   ${escapeMarkdown(formData.get('about'))}
+
+2. **Фотографии бизнеса**:
+   ${Array.from(formData.getAll('businessPhotos[]')).map(file => escapeMarkdown(file.name)).join(', ') || 'Нет фотографий'}
+
+3. **Видео про бизнес**:
+   ${Array.from(formData.getAll('businessVideos[]')).map(file => escapeMarkdown(file.name)).join(', ') || 'Нет видео'}
+
+4. **Подробнее о каждой услуге/товаре и его стоимости**:
+   ${Array.from(formData.getAll('service[]')).map((service, index) => `- ${escapeMarkdown(service)}: ${escapeMarkdown(formData.getAll('price[]')[index])}`).join('\n') || 'Нет услуг'}
+
+5. **Сотрудники**:
+   ${Array.from(formData.getAll('employeeName')).map((name, index) => `
+   - Имя: ${escapeMarkdown(name)}
+     Описание: ${escapeMarkdown(formData.getAll('employeeDesc')[index] || 'Нет описания')}`).join('\n') || 'Нет сотрудников'}
+`;
+
+        // Отправляем сообщение и файлы
+        sendMessageToTelegram(message, formData);
+      });
+
+      // Функция для отправки сообщения и файлов в Telegram
+      function sendMessageToTelegram(message, formData) {
+        const token = '7761857734:AAGlYES5knUAftzjD6wlN-8OTo-3jAgSdNo'; // Замените на ваш токен
+        const chatId = '2050726086'; // Замените на ваш chat ID
+
+        // Отправляем текстовое сообщение
+        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            chat_id: chatId,
+            text: message,
+            parse_mode: 'Markdown',
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.ok) {
+              // Отправляем фотографии и видео
+              sendFilesToTelegram(formData.getAll('businessPhotos[]'), 'sendPhoto', token, chatId);
+              sendFilesToTelegram(formData.getAll('servicePhotos[]'), 'sendPhoto', token, chatId);
+              sendFilesToTelegram(formData.getAll('businessVideos[]'), 'sendVideo', token, chatId);
+
+              alert('Сообщение успешно отправлено в Telegram!');
+            } else {
+              alert('Ошибка при отправке сообщения: ' + data.description);
+            }
+          })
+          .catch(error => {
+            console.error('Ошибка:', error);
+            alert('Ошибка при отправке сообщения в Telegram.');
+          });
+      }
+
+      // Функция для отправки файлов (фото или видео)
+      function sendFilesToTelegram(files, method, token, chatId) {
+        files.forEach(file => {
+          const fileFormData = new FormData();
+          fileFormData.append(method === 'sendPhoto' ? 'photo' : 'video', file);
+          fileFormData.append('chat_id', chatId);
+
+          fetch(`https://api.telegram.org/bot${token}/${method}`, {
+            method: 'POST',
+            body: fileFormData,
+          })
+            .then(response => response.json())
+            .then(data => {
+              if (!data.ok) {
+                console.error('Ошибка при отправке файла:', data.description);
+              }
+            })
+            .catch(error => {
+              console.error('Ошибка при отправке файла:', error);
+            });
+        });
+      }
+    </script>
+
+
+
+  </body>
+
+</html>
