@@ -32,7 +32,9 @@
     }
 
     form {
-      background-color: #fff;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -117,7 +119,6 @@
       font-weight: bold;
       margin-top: 25px;
       margin-bottom: 15px;
-      color: #495057;
     }
 
     .service-row {
@@ -203,6 +204,12 @@
         font-size: 11px;
       }
     }
+
+    .wrapper {
+      background-color: #ffffff;
+      padding: 10px;
+      border-radius: 30px;
+    }
   </style>
 </head>
 
@@ -211,65 +218,85 @@
 
   <form id="business-form">
     <!-- О себе -->
-    <label for="about">Расскажите о себе</label>
-    <textarea id="about" name="about"
-      placeholder="Как давно работаете, что отличает вас от конкурентов, есть ли доставка и выезд"></textarea>
+    <div class="wrapper">
+      <label for="about">Расскажите о себе</label>
+      <textarea id="about" name="about"
+        placeholder="Как давно работаете, что отличает вас от конкурентов, есть ли доставка и выезд"></textarea>
+    </div>
 
     <!-- Прикрепление фотографий -->
-    <label>Пожалуйста, прикрепите фотографии вашего бизнеса</label>
-    <div class="file-input-wrapper" id="photo-section">
-      <input type="file" name="businessPhotos[]" accept="image/*" multiple>
-      <ul class="file-list" id="photo-list"></ul>
+    <div class="wrapper">
+      <label>Пожалуйста, прикрепите фотографии вашего бизнеса</label>
+      <div class="file-input-wrapper" id="photo-section">
+        <input type="file" name="businessPhotos[]" accept="image/*" multiple>
+        <ul class="file-list" id="photo-list"></ul>
+      </div>
     </div>
 
     <!-- Прикрепление видео -->
-    <label>Прикрепите видео про ваш бизнес</label>
-    <div class="file-input-wrapper" id="video-section">
-      <input type="file" name="businessVideos[]" accept="video/*" multiple>
-      <ul class="file-list" id="video-list"></ul>
+    <div class="wrapper">
+      <label>Прикрепите видео про ваш бизнес</label>
+      <div class="file-input-wrapper" id="video-section">
+        <input type="file" name="businessVideos[]" accept="video/*" multiple>
+        <ul class="file-list" id="video-list"></ul>
+      </div>
     </div>
 
     <!-- Услуги/Товары и Стоимость -->
-    <div id="service-section">
-      <div class="section-title">Теперь подробнее о каждой услуге/товаре и его стоимости</div>
-      <div id="service-container">
-        <div class="service-row">
-          <input type="text" name="service[]" placeholder="Услуга/Товар">
-          <input type="text" name="price[]" placeholder="Стоимость">
+    <div class="wrapper">
+      <div id="service-section">
+        <div class="section-title">Теперь подробнее о каждой услуге/товаре и его стоимости</div>
+        <div id="service-container">
+          <div class="service-row">
+            <input type="text" name="service[]" placeholder="Услуга/Товар">
+            <input type="text" name="price[]" placeholder="Стоимость">
+          </div>
         </div>
+        <button type="button" class="add-btn" id="add-service-btn">+ Добавить Услугу/Товар</button>
       </div>
-      <button type="button" class="add-btn" id="add-service-btn">+ Добавить Услугу/Товар</button>
     </div>
 
     <!-- Прикрепление фотографий для услуги -->
-    <label>Прикрепите фотографии для услуги/товара</label>
-    <div class="file-input-wrapper" id="service-photo-section">
-      <input type="file" name="servicePhotos[]" accept="image/*" multiple>
-      <ul class="file-list" id="service-photo-list"></ul>
-      <div id="service-photo-message" style="color: green; margin-top: 10px;"></div> <!-- Новое сообщение -->
+    <div class="wrapper">
+      <label>Прикрепите фотографии для услуги/товара</label>
+      <div class="file-input-wrapper" id="service-photo-section">
+        <input type="file" name="servicePhotos[]" accept="image/*" multiple>
+        <ul class="file-list" id="service-photo-list"></ul>
+        <div id="service-photo-message" style="color: green; margin-top: 10px;"></div> <!-- Новое сообщение -->
+      </div>
     </div>
 
     <!-- Сотрудники -->
-    <div id="employee-section">
-      <div class="section-title">Познакомьте своих клиентов с вашими сотрудниками</div>
-      <div id="employee-container"> <!-- Новый контейнер для сотрудников -->
-        <div class="employee-row">
-          <label>Имя сотрудника:</label>
-          <input type="text" name="employeeName[]" placeholder="Имя сотрудника">
-          <label>Должность:</label>
-          <input type="text" name="employeePosition[]" placeholder="Должность сотрудника">
-          <label>Фото сотрудника:</label>
-          <input type="file" name="employeePhotos[]" accept="image/*">
-          <ul class="file-list" id="employee-photo-list"></ul>
+    <div class="wrapper">
+      <div id="employee-section">
+        <div class="section-title">Познакомьте своих клиентов с вашими сотрудниками</div>
+        <div id="employee-container"> <!-- Новый контейнер для сотрудников -->
+          <div class="employee-row">
+            <label>Имя сотрудника:</label>
+            <input type="text" name="employeeName[]" placeholder="Имя сотрудника">
+            <label>Должность:</label>
+            <input type="text" name="employeePosition[]" placeholder="Должность сотрудника">
+            <label>Фото сотрудника:</label>
+            <input type="file" name="employeePhotos[]" accept="image/*">
+            <ul class="file-list" id="employee-photo-list"></ul>
+          </div>
         </div>
+        <button type="button" class="add-btn" id="add-employee-btn">+ Добавить сотрудника</button>
       </div>
-      <button type="button" class="add-btn" id="add-employee-btn">+ Добавить сотрудника</button>
     </div>
 
     <button type="submit" class="add-btn" style="background-color: green;">Отправить</button>
   </form>
 
   <script>
+    document.querySelectorAll('input[type="text"], textarea').forEach(input => {
+      input.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+          event.preventDefault(); // Предотвращает отправку формы
+        }
+      });
+    });
+    
     // Функция для экранирования Markdown
     function escapeMarkdown(text) {
       return text
