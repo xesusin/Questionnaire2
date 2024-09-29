@@ -215,12 +215,26 @@
     <div class="wrapper">
       <label for="about">Расскажите о себе</label>
       <textarea id="about" name="about"
-        placeholder="Как давно работаете, что отличает вас от конкурентов, есть ли доставка и выезд"></textarea>
+        placeholder="Как давно Вы работаете, какие товары/услуги продаёте, что отличает Вас от других конкурентов, есть ли доставка(выезд)"></textarea>
     </div>
 
     <!-- Прикрепление фотографий -->
     <div class="wrapper">
-      <label>Пожалуйста, прикрепите фотографии вашего бизнеса</label>
+      <label>
+        <p>Фотографии вашего бизнеса.</p>
+        <br>
+        <li style="font-weight: 500;">Обязательно вход, чтобы клиентам было проще найти.</li>
+        <br>
+        <li style="font-weight: 500;">Помещение внутри, ваши товары/место оказания услуги (например, парикмахерское
+          кресло, массажный стол/стол
+          для маникюра и тд).</li>
+        <br>
+        <li style="font-weight: 500;">Если вы репетитор, массажист или оказываете личные услуги, то можно разместить
+          ваши фотографии.</li>
+        <br>
+        <span style="color: red; font-weight: 550;">(Не отправляйте фотографии, которые Вы не хотели бы
+          публиковать)</span>
+      </label>
       <div class="file-input-wrapper" id="photo-section">
         <input type="file" name="businessPhotos[]" accept="image/*" multiple>
         <ul class="file-list" id="photo-list"></ul>
@@ -229,7 +243,7 @@
 
     <!-- Прикрепление видео -->
     <div class="wrapper">
-      <label>Прикрепите видео про ваш бизнес</label>
+      <label>Если у Вас есть видео про ваш бизнес, так же обязательно отправьте нам</label>
       <div class="file-input-wrapper" id="video-section">
         <input type="file" name="businessVideos[]" accept="video/*" multiple>
         <ul class="file-list" id="video-list"></ul>
@@ -239,32 +253,37 @@
     <!-- Услуги/Товары и Стоимость -->
     <div class="wrapper">
       <div id="service-section">
-        <div class="section-title">Теперь подробнее о каждой услуге/товаре и его стоимости</div>
+        <div class="section-title">Расскажите подробнее о каждой услуге/товаре
+        </div>
         <div id="service-container">
           <div class="service-row">
             <input type="text" name="service[]" placeholder="Услуга/Товар">
             <input type="text" name="price[]" placeholder="Стоимость">
+            <input type="text" name="about[]" placeholder="Описание">
+            <input type="file" name="servicePhotos[]" accept="image/*" multiple>
           </div>
         </div>
         <button type="button" class="add-btn" id="add-service-btn">+ Добавить Услугу/Товар</button>
       </div>
     </div>
 
-    <!-- Прикрепление фотографий для услуги -->
-    <div class="wrapper">
-      <label>Прикрепите фотографии для услуги/товара</label>
-      <div class="file-input-wrapper" id="service-photo-section">
-        <input type="file" name="servicePhotos[]" accept="image/*" multiple>
-        <ul class="file-list" id="service-photo-list"></ul>
-        <div id="service-photo-message" style="color: green; margin-top: 10px;"></div> <!-- Новое сообщение -->
-      </div>
-    </div>
-
     <!-- Сотрудники -->
     <div class="wrapper">
       <div id="employee-section">
-        <div class="section-title">Познакомьте своих клиентов с вашими сотрудниками</div>
-        <div id="employee-container"> <!-- Новый контейнер для сотрудников -->
+        <div class="section-title">
+          <p>Познакомьте своих клиентов с вашими сотрудниками</p>
+          <br>
+          <li style="font-weight: 500;">Например, если у вас несколько
+            парикмахеров в салоне или несколько педагогов детском центре, расскажите о них и об их опыте;</li>
+          <br>
+          <li style="font-weight: 500;">В пекарне покажите, кто печет, кто доставляет;</li>
+          <br>
+          <li style="font-weight: 500;">В автомастерской расскажите о мастерах, которые ремонтируют автомобиль;</li>
+          <br>
+          <span style="color: red; font-weight: 550;">Лояльность клиентов повышается в несколько раз, когда он
+            знакомится с сотрудниками лично.</span>
+        </div>
+        <div id="employee-container">
           <div class="employee-row">
             <label>Имя сотрудника:</label>
             <input type="text" name="employeeName[]" placeholder="Имя сотрудника">
@@ -283,12 +302,10 @@
   </form>
 
   <script>
-    document.querySelectorAll('input[type="text"], textarea').forEach(input => {
-      input.addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-          event.preventDefault(); // Предотвращает отправку формы
-        }
-      });
+    document.addEventListener('keydown', function (event) {
+      if (event.target.tagName === 'INPUT' && event.key === 'Enter') {
+        event.preventDefault();
+      }
     });
 
     // Функция для экранирования Markdown
@@ -319,11 +336,13 @@
       const serviceRow = document.createElement('div');
       serviceRow.className = 'service-row';
       serviceRow.innerHTML = `
-            <input type="text" name="service[]" placeholder="Услуга/Товар">
-            <input type="text" name="price[]" placeholder="Стоимость">
-            <button type="button" class="remove-btn" onclick="this.parentElement.remove()">Удалить</button>`;
+        <input type="text" name="service[]" placeholder="Услуга/Товар">
+        <input type="text" name="price[]" placeholder="Стоимость">
+        <input type="text" name="about[]" placeholder="Описание">
+        <input type="file" name="servicePhotos[]" accept="image/*" multiple>`;
       serviceContainer.appendChild(serviceRow);
     });
+
 
     // Добавить сотрудников
     const addEmployeeBtn = document.getElementById('add-employee-btn');
@@ -373,10 +392,6 @@
       handleFileUpload(this, 'video-list');
     });
 
-    servicePhoto.addEventListener('change', function () {
-      handleFileUpload(this, 'service-photo-list');
-    });
-
     employeePhoto.addEventListener('change', function () {
       handleFileUpload(this, 'employee-photo-list');
     });
@@ -390,22 +405,21 @@
       const message = `
             1. О себе: ${escapeMarkdown(formData.get('about')) || 'Не заполнено'}
 
-            2. **Фотографии бизнеса**:
+            2. Фотографии бизнеса:
             ${Array.from(formData.getAll('businessPhotos[]')).map(file => escapeMarkdown(file.name)).join(', ') || 'Не заполнено'}
 
-            3. **Видео про бизнес**:
+            3. Видео про бизнес:
             ${Array.from(formData.getAll('businessVideos[]')).map(file => escapeMarkdown(file.name)).join(', ') || 'Не заполнено'}
 
-            4. **Подробнее о каждой услуге / товаре и его стоимости**:
+            4. Подробнее о каждой услуге / товаре, его стоимости, описании и фотографии:
             ${Array.from(formData.getAll('service[]')).length > 0
           ? Array.from(formData.getAll('service[]')).map((service, index) =>
-            `- ${escapeMarkdown(service)}: ${escapeMarkdown(formData.getAll('price[]')[index] || 'Не заполнено')}`).join('\n')
+            `- ${escapeMarkdown(service)}: ${escapeMarkdown(formData.getAll('price[]')[index] || 'Не заполнено')} | Описание: ${escapeMarkdown(formData.getAll('about[]')[index] || 'Не заполнено')} | Фото: ${Array.from(formData.getAll('servicePhotos[]')).length > 0
+              ? escapeMarkdown(formData.getAll('servicePhotos[]')[index]?.name || 'Не заполнено')
+              : 'Не заполнено'}`).join('\n')
           : 'Нет услуг'}
 
-            5. **Фотографии услуг/товаров**:
-            ${Array.from(formData.getAll('servicePhotos[]')).map(file => escapeMarkdown(file.name)).join(', ') || 'Не заполнено'}
-
-            6. **Сотрудники**:
+            5. Сотрудники:
             ${Array.from(formData.getAll('employeeName[]')).map((name, index) => `- Имя: ${escapeMarkdown(name || 'Не заполнено')} | Должность: ${escapeMarkdown(formData.getAll('employeePosition[]')[index] || 'Не заполнено')} | Фото: ${escapeMarkdown(formData.getAll('employeePhotos[]')[index]?.name || 'Не заполнено')}`).join('\n')}
         `;
 
