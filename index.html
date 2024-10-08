@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Анкета №2</title>
   <style>
-    /* Reset some basic styles */
     * {
       box-sizing: border-box;
       margin: 0;
@@ -24,7 +23,7 @@
 
     h1 {
       text-align: center;
-      font-size: 2;
+      font-size: 2rem;
       /* Use rem for responsive text */
       margin: 30px 0 0 0;
       color: #004085;
@@ -39,12 +38,14 @@
       border-radius: 12px;
     }
 
-    label {
+    p {
       display: block;
-      margin-top: 10px;
-      font-weight: bold;
       font-size: 1rem;
-      /* Use rem for responsive text */
+      margin: 5px 0;
+    }
+
+    li {
+      list-style: none;
     }
 
     input[type="text"],
@@ -52,7 +53,6 @@
     textarea {
       width: 100%;
       padding: 12px;
-      margin-top: 8px;
       border: 2px solid #ccd1d9;
       border-radius: 6px;
       box-sizing: border-box;
@@ -76,7 +76,6 @@
     .add-btn,
     button[type="submit"],
     .remove-btn {
-      margin-top: 15px;
       padding: 10px 18px;
       background-color: #007bff;
       color: white;
@@ -96,34 +95,67 @@
       box-shadow: 0 4px 10px rgba(0, 91, 187, 0.2);
     }
 
+    #service-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .add-btn {
+      margin-top: 5px;
+    }
+
     .remove-btn {
+      position: absolute;
+      /* Позиционируем кнопку */
+      right: 5px;
+      /* Отступ справа */
+      top: 3px;
+      /* Отступ сверху */
+      width: 30px !important;
+      height: 30px !important;
+      border-radius: 50%;
+      /* Круглая форма */
       background-color: #dc3545;
+      /* Красный цвет */
+      color: white;
+      /* Цвет текста */
+      border: none;
+      /* Убираем обводку */
+      cursor: pointer;
+      /* Курсор при наведении */
+      font-size: 14px;
+      /* Размер шрифта */
+      display: flex;
+      /* Выравнивание содержимого */
+      justify-content: center;
+      /* Центрируем по горизонтали */
+      align-items: center;
+      /* Центрируем по вертикали */
+      transition: background-color 0.3s ease;
+      /* Плавный переход цвета */
     }
 
     .remove-btn:hover {
       background-color: #c82333;
-    }
-
-    .file-input-wrapper {
-      margin-top: 10px;
+      /* Цвет при наведении */
     }
 
     .section-title {
-      /* Use rem for responsive text */
-      font-weight: bold;
-      margin-top: 25px;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
-    .service-row {
+    .service-row,
+    .employee-row {
       display: flex;
       gap: 10px;
-      margin-top: 10px;
       flex-wrap: wrap;
-      /* Allow wrapping for small screens */
+      position: relative;
+      flex-direction: column;
     }
 
-    .service-row input {
+    .service-row input,
+    .employee-row input {
       flex: 1;
       padding: 10px;
       border: 2px solid #ccd1d9;
@@ -131,29 +163,9 @@
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .service-row input:focus {
-      border-color: #007bff;
-      box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
-    }
-
-    .file-list {
-      margin-top: 10px;
-      list-style-type: none;
-      padding: 0;
-    }
-
-    .file-list li {
-      margin: 5px 0;
-      background: #f9f9f9;
-      padding: 8px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      transition: box-shadow 0.3s ease;
-    }
-
-    .file-list li:hover {
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+    .remove-btn {
+        padding: 0 !important;
+      }
 
     /* Media Queries for Responsiveness */
     @media (max-width: 600px) {
@@ -164,7 +176,7 @@
 
       h1 {
         font-size: 2rem;
-        /* Smaller header on small screens */
+
       }
 
       input[type="text"],
@@ -181,8 +193,8 @@
         font-size: 0.9rem;
         /* Slightly smaller text */
       }
-
-      .service-row {
+      .service-row,
+      .employee-row {
         flex-direction: column;
         /* Stack inputs vertically */
       }
@@ -203,6 +215,14 @@
       background-color: #ffffff;
       padding: 10px;
       border-radius: 30px;
+      max-width: 840px;
+      width: 100%;
+    }
+
+    #employee-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
   </style>
 </head>
@@ -213,93 +233,73 @@
   <form id="business-form">
     <!-- О себе -->
     <div class="wrapper">
-      <label for="about">Расскажите о себе</label>
+      <p for="about"><strong>Расскажите о себе</strong></p>
       <textarea id="about" name="about"
-        placeholder="Как давно Вы работаете, какие товары/услуги продаёте, что отличает Вас от других конкурентов, есть ли доставка(выезд)"></textarea>
+        placeholder="Как давно Вы работаете? Какие товары/услуги предлагаете? Чем Вы отличаетесь от конкурентов? Есть ли доставка (выезд)?"></textarea>
     </div>
-
+  
     <!-- Прикрепление фотографий -->
     <div class="wrapper">
-      <label>
-        <p>Фотографии вашего бизнеса.</p>
-        <br>
-        <li style="font-weight: 500;">Обязательно вход, чтобы клиентам было проще найти.</li>
-        <br>
-        <li style="font-weight: 500;">Помещение внутри, ваши товары/место оказания услуги (например, парикмахерское
-          кресло, массажный стол/стол
-          для маникюра и тд).</li>
-        <br>
-        <li style="font-weight: 500;">Если вы репетитор, массажист или оказываете личные услуги, то можно разместить
-          ваши фотографии.</li>
-        <br>
-        <span style="color: red; font-weight: 550;">(Не отправляйте фотографии, которые Вы не хотели бы
-          публиковать)</span>
-      </label>
+      <p>
+        <p><strong>Фотографии вашего бизнеса</strong></p>
+        <ul>
+          <li>● Помещение внутри, ваши товары или место оказания услуги (например, парикмахерское кресло, массажный стол и т. д.);</li>
+          <li>● Если вы репетитор, массажист или предоставляете личные услуги, вы также можете разместить ваши фотографии;</li>
+          <li>● Обязательно вход, чтобы клиентам было проще вас найти.</li>
+        </ul>
+        <p><strong>Не отправляйте фотографии, которые вы не хотели бы публиковать.</strong></p>
+      </p>
       <div class="file-input-wrapper" id="photo-section">
         <input type="file" name="businessPhotos[]" accept="image/*" multiple>
-        <ul class="file-list" id="photo-list"></ul>
       </div>
     </div>
-
+  
     <!-- Прикрепление видео -->
     <div class="wrapper">
-      <label>Если у Вас есть видео про ваш бизнес, так же обязательно отправьте нам</label>
+      <p><strong>Если у вас есть видео о вашем бизнесе, пожалуйста, отправьте его</strong></p>
       <div class="file-input-wrapper" id="video-section">
         <input type="file" name="businessVideos[]" accept="video/*" multiple>
-        <ul class="file-list" id="video-list"></ul>
       </div>
     </div>
-
+  
     <!-- Услуги/Товары и Стоимость -->
     <div class="wrapper">
       <div id="service-section">
-        <div class="section-title">Расскажите подробнее о каждой услуге/товаре
-        </div>
+        <p><strong>Расскажите подробнее о каждой услуге/товаре:</strong></p>
         <div id="service-container">
           <div class="service-row">
-            <input type="text" name="service[]" placeholder="Услуга/Товар">
-            <input type="text" name="price[]" placeholder="Стоимость">
-            <input type="text" name="about[]" placeholder="Описание">
+            <input type="text" name="service[]" placeholder="Услуга/Товар" required>
+            <input type="text" name="price[]" placeholder="Стоимость" required>
+            <input type="text" name="about[]" placeholder="Описание" required>
             <input type="file" name="servicePhotos[]" accept="image/*" multiple>
           </div>
         </div>
         <button type="button" class="add-btn" id="add-service-btn">+ Добавить Услугу/Товар</button>
       </div>
     </div>
-
+  
     <!-- Сотрудники -->
     <div class="wrapper">
-      <div id="employee-section">
-        <div class="section-title">
-          <p>Познакомьте своих клиентов с вашими сотрудниками</p>
-          <br>
-          <li style="font-weight: 500;">Например, если у вас несколько
-            парикмахеров в салоне или несколько педагогов детском центре, расскажите о них и об их опыте;</li>
-          <br>
-          <li style="font-weight: 500;">В пекарне покажите, кто печет, кто доставляет;</li>
-          <br>
-          <li style="font-weight: 500;">В автомастерской расскажите о мастерах, которые ремонтируют автомобиль;</li>
-          <br>
-          <span style="color: red; font-weight: 550;">Лояльность клиентов повышается в несколько раз, когда он
-            знакомится с сотрудниками лично.</span>
+      <p><strong>Познакомьте своих клиентов с вашими сотрудниками:</strong></p>
+      <ul>
+        <li>● Если у вас несколько парикмахеров или педагогов, расскажите о каждом из них и об их опыте.</li>
+        <li>● В пекарне покажите, кто печет и кто доставляет.</li>
+        <li>● В автомастерской расскажите о мастерах, которые ремонтируют автомобили.</li>
+      </ul>
+      <p><strong>Лояльность клиентов повышается, когда они знакомятся с вашими сотрудниками.</strong></p>
+      <div id="employee-container">
+        <div class="employee-row">
+          <input type="text" name="employeeName[]" placeholder="Имя сотрудника" required>
+          <input type="text" name="employeePosition[]" placeholder="Должность сотрудника" required>
+          <input type="file" name="employeePhotos[]" accept="image/*">
         </div>
-        <div id="employee-container">
-          <div class="employee-row">
-            <label>Имя сотрудника:</label>
-            <input type="text" name="employeeName[]" placeholder="Имя сотрудника">
-            <label>Должность:</label>
-            <input type="text" name="employeePosition[]" placeholder="Должность сотрудника">
-            <label>Фото сотрудника:</label>
-            <input type="file" name="employeePhotos[]" accept="image/*">
-            <ul class="file-list" id="employee-photo-list"></ul>
-          </div>
-        </div>
-        <button type="button" class="add-btn" id="add-employee-btn">+ Добавить сотрудника</button>
       </div>
+      <button type="button" class="add-btn" id="add-employee-btn">+ Добавить сотрудника</button>
     </div>
-
+  
     <button type="submit" class="add-btn" style="background-color: green;">Отправить</button>
   </form>
+  
 
   <script>
     document.addEventListener('keydown', function (event) {
@@ -308,27 +308,6 @@
       }
     });
 
-    // Функция для экранирования Markdown
-    function escapeMarkdown(text) {
-      return text
-        .replace(/_/g, '\\_')
-        .replace(/\*/g, '\\*')
-        .replace(/\[/g, '\\[')
-        .replace(/\]/g, '\\]')
-        .replace(/\(/g, '\\(')
-        .replace(/\)/g, '\\)')
-        .replace(/~/g, '\\~')
-        .replace(/>/g, '\\>')
-        .replace(/#/g, '\\#')
-        .replace(/\+/g, '\\+')
-        .replace(/-/g, '\\-')
-        .replace(/=/g, '\\=')
-        .replace(/!/g, '\\!')
-        .replace(/\|/g, '\\|')
-        .replace(/`/g, '\\`')
-        .replace(/,/g, '\\,');
-    }
-
     // Добавить услуги
     const addServiceBtn = document.getElementById('add-service-btn');
     addServiceBtn.addEventListener('click', () => {
@@ -336,169 +315,31 @@
       const serviceRow = document.createElement('div');
       serviceRow.className = 'service-row';
       serviceRow.innerHTML = `
-        <input type="text" name="service[]" placeholder="Услуга/Товар">
-        <input type="text" name="price[]" placeholder="Стоимость">
-        <input type="text" name="about[]" placeholder="Описание">
-        <input type="file" name="servicePhotos[]" accept="image/*" multiple>`;
+      <input type="text" name="service[]" placeholder="Услуга/Товар">
+      <input type="text" name="price[]" placeholder="Стоимость">
+      <input type="text" name="about[]" placeholder="Описание">
+      <input type="file" name="servicePhotos[]" accept="image/*" multiple>
+      <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
+    `;
       serviceContainer.appendChild(serviceRow);
     });
-
 
     // Добавить сотрудников
     const addEmployeeBtn = document.getElementById('add-employee-btn');
     addEmployeeBtn.addEventListener('click', () => {
-      const employeeContainer = document.getElementById('employee-container'); // Изменено на employee-container
+      const employeeContainer = document.getElementById('employee-container');
       const employeeDiv = document.createElement('div');
-      const uniqueId = 'employee-photo-list-' + Date.now(); // Генерируем уникальный id
-
       employeeDiv.className = 'employee-row';
       employeeDiv.innerHTML = `
-    <label>Имя сотрудника:</label><input type="text" name="employeeName[]" placeholder="Имя сотрудника">
-    <label>Должность:</label><input type="text" name="employeePosition[]" placeholder="Должность сотрудника">
-    <label>Фото сотрудника:</label><input type="file" name="employeePhotos[]" accept="image/*" onchange="handleFileUpload(this, '${uniqueId}')">
-    <ul class="file-list" id="${uniqueId}"></ul>
-    <button type="button" class="remove-btn" onclick="this.parentElement.remove()">Удалить</button>`;
-
-      employeeContainer.appendChild(employeeDiv); // Добавляем в employee-container
+      <input type="text" name="employeeName[]" placeholder="Имя сотрудника">
+      <input type="text" name="employeePosition[]" placeholder="Должность сотрудника">
+      <input type="file" name="employeePhotos[]" accept="image/*">
+      <ul class="file-list" id="employee-photo-list"></ul>
+      <button type="button" class="remove-btn" onclick="this.parentElement.remove()">X</button>
+    `;
+      employeeContainer.appendChild(employeeDiv);
     });
-
-    // Обработчик файлов
-    function handleFileUpload(input, listId) {
-      const fileList = document.getElementById(listId);
-      const files = input.files;
-
-      // Очищаем текущий список
-      fileList.innerHTML = '';
-
-      // Перебираем загруженные файлы
-      for (let i = 0; i < files.length; i++) {
-        const li = document.createElement('li');
-        li.textContent = files[i].name; // Имя файла
-        fileList.appendChild(li);
-      }
-    }
-
-    // Обработчики для фото и видео
-    const photoInput = document.querySelector('input[type="file"][name="businessPhotos[]"]');
-    const videoInput = document.querySelector('input[type="file"][name="businessVideos[]"]');
-    const servicePhoto = document.querySelector('input[type="file"][name="servicePhotos[]"]');
-    const employeePhoto = document.querySelector('input[type="file"][name="employeePhotos[]"]');
-
-    photoInput.addEventListener('change', function () {
-      handleFileUpload(this, 'photo-list');
-    });
-
-    videoInput.addEventListener('change', function () {
-      handleFileUpload(this, 'video-list');
-    });
-
-    employeePhoto.addEventListener('change', function () {
-      handleFileUpload(this, 'employee-photo-list');
-    });
-
-    // Telegram bot integration
-    document.getElementById('business-form').addEventListener('submit', function (event) {
-      event.preventDefault(); // Предотвращаем стандартную отправку формы
-
-      const formData = new FormData(this);
-
-      const message = `
-            1. О себе: ${escapeMarkdown(formData.get('about')) || 'Не заполнено'}
-
-            2. Фотографии бизнеса:
-            ${Array.from(formData.getAll('businessPhotos[]')).map(file => escapeMarkdown(file.name)).join(', ') || 'Не заполнено'}
-
-            3. Видео про бизнес:
-            ${Array.from(formData.getAll('businessVideos[]')).map(file => escapeMarkdown(file.name)).join(', ') || 'Не заполнено'}
-
-            4. Подробнее о каждой услуге / товаре, его стоимости, описании и фотографии:
-            ${Array.from(formData.getAll('service[]')).length > 0
-          ? Array.from(formData.getAll('service[]')).map((service, index) =>
-            `- ${escapeMarkdown(service)}: ${escapeMarkdown(formData.getAll('price[]')[index] || 'Не заполнено')} | Описание: ${escapeMarkdown(formData.getAll('about[]')[index] || 'Не заполнено')} | Фото: ${Array.from(formData.getAll('servicePhotos[]')).length > 0
-              ? escapeMarkdown(formData.getAll('servicePhotos[]')[index]?.name || 'Не заполнено')
-              : 'Не заполнено'}`).join('\n')
-          : 'Нет услуг'}
-
-            5. Сотрудники:
-            ${Array.from(formData.getAll('employeeName[]')).map((name, index) => `- Имя: ${escapeMarkdown(name || 'Не заполнено')} | Должность: ${escapeMarkdown(formData.getAll('employeePosition[]')[index] || 'Не заполнено')} | Фото: ${escapeMarkdown(formData.getAll('employeePhotos[]')[index]?.name || 'Не заполнено')}`).join('\n')}
-        `;
-
-      // Отправляем сообщение и после успешной отправки — файлы
-      sendMessageToTelegram(message, formData);
-    });
-
-    // Функция для отправки сообщения в Telegram
-    function sendMessageToTelegram(message, formData) {
-      const token = '7761857734:AAGlYES5knUAftzjD6wlN-8OTo-3jAgSdNo'; // Замените на ваш токен
-      const chatId = '2050726086'; // Замените на ваш chat ID
-
-      // Отправляем текстовое сообщение
-      fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: message,
-          parse_mode: 'Markdown',
-        }),
-      })
-        .then(response => response.json())
-        .then(data => {
-          if (data.ok) {
-            console.log('Сообщение отправлено:', data);
-            // Отправляем фото и видео
-            const fileUploadPromises = [];
-
-            fileUploadPromises.push(sendFilesToTelegram(formData.getAll('businessPhotos[]'), 'sendPhoto', token, chatId));
-            fileUploadPromises.push(sendFilesToTelegram(formData.getAll('businessVideos[]'), 'sendVideo', token, chatId));
-            fileUploadPromises.push(sendFilesToTelegram(formData.getAll('servicePhotos[]'), 'sendPhoto', token, chatId));
-            fileUploadPromises.push(sendFilesToTelegram(formData.getAll('employeePhotos[]'), 'sendPhoto', token, chatId)); // Отправка фото сотрудников
-
-            // Ждем завершения всех загрузок
-            return Promise.all(fileUploadPromises);
-          } else {
-            console.error('Ошибка при отправке сообщения:', data.description);
-          }
-        })
-        .then(() => {
-          alert('Сообщение отправлено успешно!');
-          document.getElementById('business-form').reset(); // Очищаем форму после отправки
-        })
-        .catch(error => {
-          console.error('Ошибка при отправке сообщения:', error);
-          alert('Ошибка при отправке сообщения!');
-        });
-    }
-
-    // Функция для отправки файлов (фото или видео)
-    function sendFilesToTelegram(files, method, token, chatId) {
-      return Promise.all(files.map(file => {
-        const fileFormData = new FormData();
-        fileFormData.append(method === 'sendPhoto' ? 'photo' : 'video', file);
-        fileFormData.append('chat_id', chatId);
-
-        return fetch(`https://api.telegram.org/bot${token}/${method}`, {
-          method: 'POST',
-          body: fileFormData,
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (!data.ok) {
-              console.error('Ошибка при отправке файла:', data.description);
-            }
-          })
-          .catch(error => {
-            console.error('Ошибка при отправке файла:', error);
-          });
-      }));
-    }
-
   </script>
-
-
-
 </body>
 
 </html>
